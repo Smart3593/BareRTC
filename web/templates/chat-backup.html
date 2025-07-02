@@ -1,0 +1,186 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.min.css">
+    <link rel="stylesheet" href="/static/fontawesome-free-6.1.2-web/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/BareRTC.css?{{CacheHash}}">
+    <title>BareRTC</title>
+</head>
+<body>
+<div id="BareRTC-App">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                BareRTC
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">
+                    <span class="icon"><i class="fa fa-home"></i></span>
+                    <span>Accueil</span>
+                </a>
+
+                <a class="navbar-item" href="/about">
+                    À propos
+                </a>
+
+                <a class="navbar-item" href="/faq">
+                    FAQ
+                </a>
+
+                <div id="navbar-more" class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Plus
+                    </a>
+
+                    <div class="navbar-dropdown is-active">
+                        <a class="navbar-item" href="/about">
+                            <span class="icon"><i class="fa fa-circle-info"></i></span>
+                            <span>À propos</span>
+                        </a>
+                        <a class="navbar-item" href="/faq">
+                            <span class="icon"><i class="fa fa-circle-question"></i></span>
+                            <span>FAQ</span>
+                        </a>
+                        <a class="navbar-item" href="/tos">
+                            <span class="icon"><i class="fa fa-list"></i></span>
+                            <span>Conditions d'utilisation</span>
+                        </a>
+                        <a class="navbar-item" href="/privacy">
+                            <span class="icon"><i class="fa fa-file-shield"></i></span>
+                            <span>Politique de confidentialité</span>
+                        </a>
+                        <a class="navbar-item" href="/contact">
+                            <span class="icon"><i class="fa fa-message"></i></span>
+                            <span>Contact</span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/contact?intent=report">
+                            <span class="icon"><i class="fa fa-triangle-exclamation"></i></span>
+                            <span>Signaler un problème</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sign In modal -->
+    <div class="modal" :class="{'is-active': loginModal.visible}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <header class="card-header has-background-info">
+                    <p class="card-header-title has-text-light">Sign In</p>
+                </header>
+                <div class="card-content">
+                    <form @submit.prevent="signIn()">
+
+                        <div class="field">
+                            <label class="label">Username</label>
+                            <input class="input"
+                                v-model="username"
+                                placeholder="Username"
+                                autocomplete="off"
+                                autofocus
+                                required>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="block p-4">
+        <div class="columns">
+            <div class="column is-one-fifth">
+                <div class="card">
+                    <header class="card-header has-background-success-dark">
+                        <p class="card-header-title has-text-light">
+                            Canaux
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <aside class="menu">
+                            <p class="menu-label">
+                                Salons de discussion
+                            </p>
+
+                            <ul class="menu-list">
+                                <li><a href="#" class="is-active">Salon de discussion</a></li>
+                            </ul>
+
+                            <p class="menu-label">
+                                Messages privés
+                            </p>
+
+                            <ul class="menu-list">
+                                <li><a href="#">Salon de discussion</a></li>
+                                <li><a href="#">MPs</a></li>
+                            </ul>
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <header class="card-header has-background-link">
+                        <p class="card-header-title has-text-light">
+                            Salon de discussion
+                        </p>
+                    </header>
+                    <div class="card-content">
+
+                        <div v-for="(msg, i) in history" v-bind:key="i">
+                            <div>
+                                <label class="label">[[msg.username]]</label>
+                            </div>
+                            [[msg.message]]
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+
+                        <form @submit.prevent="sendMessage()">
+                            <input type="text" class="input"
+                                v-model="message"
+                                placeholder="Message">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1>Bonjour</h1>
+    </div>
+
+</div><!-- /app -->
+<script src="/static/js/vue-3.2.45.js"></script>
+<script src="/static/js/BareRTC.js?{{CacheHash}}"></script>
+
+</body>
+</html>
+{{end}}

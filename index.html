@@ -1,0 +1,74 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.min.css?{{.CacheHash}}">
+    <link rel="stylesheet" href="/static/fontawesome-free-6.1.2-web/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/chat.css?{{.CacheHash}}">
+    <title>{{.Config.Title}}</title>
+  </head>
+  <body>
+
+    <!-- Photo Detail Modal -->
+    <div class="modal" id="photo-modal">
+      <div class="modal-background" onclick="document.querySelector('#photo-modal').classList.remove('is-active')"></div>
+      <div class="modal-content photo-modal">
+          <div class="image is-fullwidth">
+              <img id="modalImage" oncontextmenu="return false">
+          </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="document.querySelector('#photo-modal').classList.remove('is-active')"></button>
+    </div>
+
+    <div id="app"></div>
+
+    <!-- BareRTC constants injected by IndexPage route -->
+    <script type="text/javascript">
+      const Branding = {{.Config.Branding}};
+      const BareRTCStrings = {{.Config.Strings}};
+      const PublicChannels = {{.Config.GetChannels}};
+      const DMDisclaimer = {{.Config.DirectMessageHistory.DisclaimerMessage}};
+      const WebsiteURL = "{{.Config.WebsiteURL}}";
+      const PermitNSFW = {{AsJS .Config.PermitNSFW}};
+      const TURN = {{.Config.TURN}};
+      const WebhookURLs = {{.Config.WebhookURLs}};
+      const VIP = {{.Config.VIP}};
+      const UserJWTToken = {{.JWTTokenString}};
+      const UserJWTValid = {{if .JWTAuthOK}}true{{else}}false{{end}};
+      const UserJWTClaims = {{.JWTClaims.ToJSON}};
+      const UserJWTRules = {{.JWTClaims.Rules.ToDict}};
+      const CachedBlocklist = {{.CachedBlocklist}};
+      const CacheHash = {{.CacheHash}};
+
+      // Show the photo detail modal.
+      function setModalImage(url) {
+          let $modalImg = document.querySelector("#modalImage"),
+              $modal = document.querySelector("#photo-modal");
+          $modalImg.src = url;
+          $modal.classList.add("is-active");
+          return false;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Add global body click to hide the hamburger menu for chat settings.
+        const settingsMenu = document.querySelector("#chat-settings-hamburger-menu");
+        settingsMenu.addEventListener('click', (e) => {
+          settingsMenu.classList.toggle('is-active');
+          e.stopPropagation();
+        });
+
+        document.body.addEventListener('click', () => {
+          if (settingsMenu != undefined && settingsMenu.classList.contains("is-active")) {
+            settingsMenu.classList.remove('is-active');
+          }
+        })
+      });
+    </script>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+{{end}}

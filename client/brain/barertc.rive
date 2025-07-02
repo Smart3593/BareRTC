@@ -1,0 +1,24 @@
+// BareRTC help commands
+
+! version = 2.0
+! local concat = space
+
+! array webcam = video camera cam webcam
+
++ how do i go on @webcam
+- To go on video, look for the green "Start webcam" button at the top of the page.
+^ Click it and follow the prompts to activate your camera.
+
++ how do i block someone
+- If somebody is annoying you on chat, look for the red speech bubble icon next to their message.
+^ Clicking that button will "Mute" them.\n\n
+^ When muted, you will no longer see any messages they send in the public channels
+^ or DMs. Also, if you go on camera, the person you muted _will not see_ your camera:
+^ to them it will look like you are not even broadcasting! So you don't need to worry
+^ about somebody you muted creeping on your camera.
+
++ [how] [do i] (share my|go on|turn on|turn on my) @webcam
+@ how do i go on webcam
+
++ [how] [do i] (block|mute|hide from|silence) *
+@ how do i block someone

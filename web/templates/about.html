@@ -1,0 +1,790 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma-prefers-dark.css">
+    <link rel="stylesheet" href="/static/fontawesome-free-6.1.2-web/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/chat.css?{{.CacheHash}}">
+    <title>À propos de BareRTC</title>
+</head>
+<body>
+
+    <div class="container is-fullhd p-2">
+        <div class="content my-5">
+            <h1>À propos de BareRTC</h1>
+
+            <p>
+            Ce logiciel de salon de discussion s'appelle <strong>BareRTC</strong> et cette page contient des informations sur le logiciel et comment l'utiliser.
+            </p>
+
+            <p>
+            BareRTC est un projet open source publié sous la licence GNU General Public License avec le code disponible
+            <a href="https://git.kirsle.net/apps/BareRTC" target="_blank">ici</a>.
+            </p>
+
+            <h1>À propos de {{AsHTML .Config.Title}}</h1>
+
+            <p>
+            <strong>{{AsHTML .Config.Title}}</strong> est le nom de ce serveur BareRTC en particulier. L'administrateur a peut-être laissé quelques liens vers plus d'informations ci-dessous :
+            </p>
+
+            <ul>
+                <li><strong>Site web :</strong>
+                    <a href="{{.Config.WebsiteURL}}" target="_blank">{{.Config.WebsiteURL}}</a>
+                </li>
+            </ul>
+
+            <hr>
+
+            <h1 id="help">
+                Help &amp; Support
+                <a href="#help" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <ul>
+                <li><a href="#tour">Tour of the user interface</a></li>
+                <li><a href="#video-sharing">Video Sharing How-To's</a></li>
+                <li><a href="#features">Feature Highlights</a></li>
+                <li><a href="#browsers">Supported Browsers</a></li>
+                <li><a href="#privacy">Privacy</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+            </ul>
+
+            <h1 id="tour">
+                Tour of the user interface
+                <a href="#tour" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <div class="has-text-centered mb-4">
+                <img src="/static/img/screenshot.png" width="1269" height="582" alt="Screenshot of the user interface on desktop">
+                <br><em>Pictured: Screenshot of the user interface on tablet or desktop-sized screens.</em><br><br>
+                <img src="/static/img/mobile.png" width="720" height="703" alt="Screenshot of the user interface on mobile">
+                <br><em>Pictured: Screenshot of the mobile interface</em>
+            </div>
+
+            <p>
+                Above are screenshots of how the chat room looks on desktop and mobile displays, respectively.
+                For a description of some of the features pointed out above:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Your camera controls:</strong> Clicking on the
+                    <button type="button" class="button is-small is-success px-1">
+                        <i class="fa fa-video mr-2"></i>
+                        Share webcam
+                    </button>
+                    button will enable your webcam and your video may be watched by other people
+                    in the chat room. While broadcasting, you can Stop your webcam, Mute your
+                    microphone, and see who is currently watching you by clicking on the
+                    <button type="button" class="button is-small is-info is-outlined ml-1 px-1">
+                        <i class="fa fa-eye mr-2"></i>
+                        0
+                    </button>
+                    button, which will show the number of watchers inside the button itself.
+                    <ul>
+                        {{if .Config.PermitNSFW}}
+                        <li>
+                            The <button type="button" class="button is-small is-outlined is-dark px-1">
+                                <i class="fa fa-fire has-text-danger mr-1"></i> Explicit
+                            </button>
+                            button will toggle the setting on your camera. If you are going to be
+                            behaving sexually on cam, we ask that you please mark your own camera
+                            as 'Explicit' by using this button. The button will illuminate in red
+                            when active, and look like:
+                            <button type="button" class="button is-small is-danger px-1">
+                                <i class="fa fa-fire mr-1"></i> Explicit
+                            </button>
+                        </li>
+                        {{end}}
+                        <li>
+                            You can also see who is Watching your camera by clicking on the "Watching"
+                            tab on the Who's Online list.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    The <strong>Who Is Online</strong> list shows all of the people who are currently connected
+                    to the chat room. The Who List is global to the entire chat - it is the same list
+                    of people no matter which Channel you are currently looking at. In the Who List
+                    you may also find buttons to open a Direct Message (DM) or tune in to somebody's
+                    webcam if they are currently broadcasting.
+                    <ul>
+                        <li>
+                            <button type="button" class="button is-small px-2 py-1">
+                                <i class="fa fa-user"></i>
+                            </button>
+                            This button will open their profile page, if they have one. The icon may
+                            be color-coded for the user's gender, if available: <i class="fa fa-user has-text-gender-male"></i> male,
+                            <i class="fa fa-user has-text-gender-female"></i> female, and
+                            <i class="fa fa-user has-text-gender-other"></i> non-binary/trans/other.
+                        </li>
+                        <li>
+                            <button type="button" class="button is-small px-2 py-1">
+                                <i class="fa fa-message"></i>
+                            </button>
+                            This button will open a Direct Message (DM) chat with this person.
+                        </li>
+                        <li>
+                            <button type="button" class="button is-small px-2 py-1 is-info is-outlined">
+                                <i class="fa fa-video"></i>
+                            </button>
+                            This button will open the user's webcam, if they are broadcasting.
+                            A <strong class="has-text-info">blue</strong> button means they're live,
+                            a <strong class="has-text-danger">red</strong> means their video feed is
+                            marked <abbr title="Not Safe For Work">NSFW</abbr> or explicit. A greyed
+                            out button means they are <em>not</em> currently broadcasting their video.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    The <strong>Channels &amp; DMs</strong> panel lists the available public chat channels
+                    you may participate in as well as any currently open DMs for private one-on-one chats
+                    with other people. Some channels may have notification counters beside them to indicate
+                    unread messages have appeared.
+                    <ul>
+                        <li>
+                            <strong>Note:</strong> the Chat Rooms are just public channels that <em>everybody</em>
+                            is "in" and is designed to organize public conversations into various topics. For example,
+                            one chat room may be a dedicated space for people to share photos on chat so that the
+                            main conversation channels don't get spammed too much with those photos.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    The <strong>Message entry box</strong> at the bottom of the screen is how you type a
+                    message and send it to the currently selected Channel or DM conversation.
+                    <ul>
+                        <li>
+                            In public channels you may <strong>send a picture</strong> by clicking on the picture
+                            button to the left of the message box.
+                        </li>
+                        <li>
+                            You may <strong>add an emoji</strong> to your message by clicking on the smile icon
+                            to the right of the message box.
+                        </li>
+                        <li>
+                            You may <strong>at-mention</strong> people in chat by typing the "@" symbol, which
+                            should prompt an auto-complete of users currently online. You may hit the Tab key
+                            to insert the currently selected name into your message.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    In the upper right, the <i class="fa fa-bars"></i> <strong>Menu</strong> button houses
+                    some options such as the <i class="fa fa-gears"></i> <strong>Chat Settings</strong>.
+                    Some interesting features in there include:
+                    <ul>
+                        <li>
+                            <strong>Video scaling:</strong> you can make the webcam videos larger on
+                            your screen to see your chat partners in better detail.
+                        </li>
+                        <li>
+                            <strong>Sound effects:</strong> by default it plays a sound when you receive
+                            a new Direct Message but you can also turn on sound effects for public chat
+                            messages and when people join or exit the room. If the chat room is currently
+                            empty, you could set a sound effect when somebody joins so you know there may
+                            be someone to chat with then!
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>
+                On <strong>mobile web browsers</strong> that don't have large enough screens to show everything
+                at once, the Chat Room screen is shown by default and buttons appear in the corners to get to
+                the two side panels (to change channels or manage your DMs, and to see Who Is Online and tune
+                in to their webcams, respectively).
+            </p>
+
+            <hr>
+
+            <h1 id="features">
+                Feature Highlights
+                <a href="#features" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <h3 id="emoji-reactions">
+                Emoji Reactions
+                <a href="#emoji-reactions" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+            You may add emoji reactions to chat messages by clicking on the
+            <button type="button" class="button is-small has-text-grey is-outlined px-2">
+                <i class="fa fa-plus mr-2"></i> <i class="fa fa-heart"></i>
+            </button>
+            button at the bottom right corner.
+            </p>
+
+            <p>
+            Reactions added by yourself or others will appear at the bottom of their message. You can
+            see who reacted by hovering your mouse cursor over the button, or you can 'upvote' their
+            reaction by clicking on it.
+            </p>
+
+            <h3 id="mute">
+                Muting spammy users
+                <a href="#mute" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+            If somebody on chat is bothering you, you may <strong>mute</strong> their messages by clicking
+            on the red <i class="fa fa-comment-slash has-text-danger"></i> button on their message.
+            </p>
+
+            <p>
+            While they are muted:
+            </p>
+
+            <ul>
+                <li>You will no longer see their future messages in public chat rooms.</li>
+                <li>You will no longer receive any of their future Direct Messages (DMs).</li>
+                <li>
+                    They will not be allowed to watch your webcam if you are sharing. The chat
+                    server will lie and tell them your camera <em>isn't even online</em> so they
+                    will not know they had been muted.
+                </li>
+            </ul>
+
+            <p>
+            The mute is <strong>temporary</strong> and will last for the remainder of your chat
+            session (until you log off).
+            </p>
+
+            <h3 id="markdown">
+                Styling Your Messages
+                <a href="#markdown" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+            BareRTC supports Markdown syntax for your chat messages. You can make text <strong>bold</strong>
+            by putting asterisks around part of it, <strong>**like this**</strong> or make text italic with
+            <em>*single asterisks*</em>.
+            </p>
+
+            <p>
+            Hyperlinks you paste that begin with https:// will be clickable as-is, or you can create a custom
+            label for it by typing e.g. <code>[click my link](https://www.wikipedia.org/)</code>.
+            </p>
+
+            <p>
+            To learn more about Markdown, please check out the <a href="https://www.markdownguide.org" target="_blank">Markdown Guide</a>
+            website.
+            </p>
+
+            <hr>
+
+            <h1 id="video-sharing">
+                Video Sharing How-To's
+                <a href="#video-sharing" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <h3 id="webcam">
+                About webcam sharing
+                <a href="#webcam" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+            The WebRTC technology used by this chat room allows for direct, <strong>peer to peer</strong>
+            connections between you and the other chat members to stream video and audio directly to one
+            another, without needing a server in the middle to relay all that data. In many cases, WebRTC
+            should "just work" but you may run into trouble broadcasting if your local network is heavily
+            firewalled (for example on a corporate or school network).
+            </p>
+
+            <p>
+            In many WebRTC video apps (such as Zoom, Jitsi, Google Hangouts, etc.), when one or both parties
+            are on such difficult networks, a server in the middle is used to transfer the video data between
+            them. BareRTC does not have any such server, as the bandwidth costs to carry your video could get
+            expensive! If your video sharing is not working, it's unfortunate but you should still be able to
+            have text chat conversations as normal.
+            </p>
+
+            <p>
+            <strong>Notice:</strong> because of the peer-to-peer nature of the webcam feature, it is possible
+            that your chat partner may discover your <a href="https://en.wikipedia.org/wiki/IP_address" target="_blank">IP address</a>
+            if they check their local computer's connections. This is true of all WebRTC-based video chat systems.
+            Also, it is possible that your chat partner may "screen record" your video -- also true of all video
+            sharing systems. Please inform a moderator if you know somebody is violating your privacy in this
+            way so that they may be banned from the chat room.
+            </p>
+
+            <h3 id="broadcast">
+                How do I go on video?
+                <a href="#broadcast" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                To share your webcam, click on the green
+                <button type="button" class="button is-small is-success px-1">
+                    <i class="fa fa-video mr-2"></i>
+                    Share webcam
+                </button>
+                button at the top left of the web page. This will open a modal with some options for
+                your camera:
+            </p>
+
+            <ul>
+                <li>
+                    You may start with your microphone muted by default.
+                </li>
+                {{if .Config.PermitNSFW}}
+                <li>
+                    You may mark your camera as "Explicit" to begin with. If you are intending immediately to
+                    behave sexually on camera, please mark this box so that your camera will appear 'red' by
+                    default and other people on chat can know what they're getting into when they click to
+                    watch your camera.
+                </li>
+                {{end}}
+                <li>
+                    You may opt-in to some "mutual webcam settings":
+                    <ul>
+                        <li>You may require your viewers to also be sharing their own camera first before they can open yours.</li>
+                        <li>You may automatically open your viewer's cameras when they open yours (and they are also broadcasting).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 id="stop-webcam">
+                How do I stop my camera?
+                <a href="#stop-webcam" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                When you are broadcasting, the red "<i class="fa fa-stop"></i> Stop" button at the top of the
+                page will turn your camera off.
+            </p>
+
+            <h3 id="mute-microphone">
+                How do I mute my camera's microphone?
+                <a href="#mute-microphone" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                The button to <i class="fa fa-mute"></i> Mute will be at the top of the page next to the
+                <i class="fa fa-stop"></i> Stop button. Alternatively, you can click on the microphone inside
+                your own webcam video preview to toggle the mute that way. Either button works!
+            </p>
+
+            <h3 id="watching">
+                How do I see who is watching me?
+                <a href="#watching" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                You may click on the <button type="button" class="button is-small is-info is-outlined ml-1 px-1">
+                    <i class="fa fa-eye mr-2"></i>
+                    0
+                </button> button at the top of the page to see who is watching you. The number inside the
+                button will be your current number of viewers.
+            </p>
+
+            <p>
+                You may also click on the <i class="fa fa-eye"></i> Watching tab in the Who's Online list.
+            </p>
+
+            <h3 id="boot">
+                How do I stop somebody from watching me?
+                <a href="#boot" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                On the Who's Online list, click on the <i class="fa fa-eye"></i> Watching tab to see who
+                is currently watching your camera.
+            </p>
+
+            <p>
+                To 'boot' somebody off your camera, click on the
+                <button type="button" class="button is-small px-2 py-1"
+                    title="Kick this person off your cam">
+                    <i class="fa fa-user-xmark has-text-danger"></i>
+                </button>
+                button next to their name. This will kick them off your camera and they will not
+                be allowed to re-open your cam for the remainder of <em>your</em> chat session.
+            </p>
+
+            <p>
+                To people who have been booted from your camera, the chat server will tell them that
+                your camera <em>isn't even broadcasting</em> at all! They will see a greyed-out video
+                button and may think you have simply turned off your camera, and they won't know for
+                sure that you have booted them!
+            </p>
+
+            <h3 id="video-size">
+                How do I make videos larger on my screen?
+                <a href="#video-size" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                There are a few methods available to change the size of videos on the chat room,
+                depending on whether your device has a mouse cursor or is a touch screen (such as a tablet).
+            </p>
+
+            <p>
+                Options that may work with all devices (with mouse or touch screen):
+            </p>
+
+            <ul>
+                <li>
+                    Chat Settings: by clicking on the blue menu button on the top-right corner of the page, the
+                    Display tab has a "Video size" dropdown with some options to change the size of all videos
+                    open on your screen.
+                </li>
+                <li>
+                    On wide screens (such as an iPad in landscape orientation): when you have videos open, look
+                    for the <i class="fa fa-magnifying-glass-plus"></i> <i class="fa fa-magnifying-glass-minus"></i>
+                    buttons in the header just above the video dock. Clicking on these buttons will scale the docked
+                    videos larger or smaller (in similar increments as the Chat Settings dropdown).
+                </li>
+            </ul>
+
+            <p>
+                If you are on a device with a mouse cursor, such as a desktop or a laptop with a touchpad, there
+                are a couple of ways to resize individual videos how you see fit:
+            </p>
+
+            <ul>
+                <li>
+                    When videos are docked in the top of the page, hover your mouse over the bottom-right corner
+                    of a video. It should show a 'resize' cursor, and you can click and drag from the bottom-right
+                    corner to resize the video.
+                </li>
+                <li>
+                    Videos can also be "popped out" of the dock at the top of the page. The pop-out button appears
+                    on top of videos, next to the mute audio button. When popped out, you can drag videos anywhere
+                    on the page and you can resize them by dragging from any edge except the top.
+                </li>
+            </ul>
+
+            <p>
+                And finally: you can put a video "full screen" too. In the control buttons at the bottom of each
+                video (beginning with the mute audio button), the one on the right will toggle the video into a
+                full screen view.
+            </p>
+
+            <h3 id="watermarks">
+                <i class="fa fa-qrcode mr-2"></i> What are the QR codes on top of webcams?
+                <a href="#watermarks" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                Most webcams will display a QR code in the corner by default, as well as a translucent copy of the
+                QR code over the center/middle of the video.
+            </p>
+
+            <p>
+                These QR codes (or 'watermarks') are a safety feature to deter people from screen recording each
+                other's webcams on here. There is no technical measure that a web page could take to prevent
+                screen recording from being possible (or to even detect that it is happening), so the QR code
+                watermarks instead will "tag" the recorded video with the current viewer's username and the
+                current date.
+            </p>
+
+            <p>
+                The idea is that if a webcam recording ends up leaked online, the QR code will be captured in
+                the video and it can be used to trace back <strong>who exactly</strong> recorded that webcam
+                and when, so that the user may be banned from the chat room and/or be reported to a relevant law
+                enforcement agency as necessary for spreading non-consensual 'revenge porn' online.
+            </p>
+
+            <p>
+                <strong>If you do not care about the risk that anyone could record your webcam,</strong> then you
+                may "opt out" of the QR code watermark being applied to <em>your own</em> video. The setting for
+                this can be found in the Chat Settings "Camera" tab.
+            </p>
+
+            <hr>
+
+            <h1 id="browsers">
+                Supported Browsers
+                <a href="#browsers" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <p>
+                All features of the chat room, including webcam sharing, should generally work on all current
+                web browsers and devices (Firefox, all Chromium browsers including Google Chrome or Microsoft
+                Edge, Safari, Androids and iPads).
+            </p>
+
+            <hr>
+
+            <h1 id="privacy">
+                Privacy
+                <a href="#privacy" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <p>
+            Some of the privacy considerations with this chat room include:
+            </p>
+
+            <ul>
+                <li>
+                    The server does not maintain long-term state of chat history. Messages are pushed out as
+                    soon as they come in, and users are forgotten when they log off.
+                </li>
+                <li>
+                    However, the server does keep temporary <strong>log files</strong> to help the server admin
+                    troubleshoot issues and check on the health of the server. These logs may include chat
+                    messages sent to public channels. Private chat (DMs) are <em>not</em> logged by default.
+                    If the server is running in debug mode (which provides a ton of telemetry to diagnose issues),
+                    the contents of DMs may be logged since debug mode will record the low-level chat protocol
+                    messages sent between the server and clients.
+                </li>
+                <li>
+                    If the administrator has enabled it, your <strong>recent direct message</strong> histories
+                    may be recorded (for your convenience) in a database. Old messages expire off after about 90
+                    days, and you can clear all your DMs history from the Chat Settings -> Misc tab. DMs are only
+                    logged when the associate website logs you in to the chat room, so that only you can access
+                    them to remember where you left off with a chat partner.
+                </li>
+                <li>
+                    Chat moderators <strong>DO NOT</strong> get to see the contents of your Direct Message
+                    conversations - that feature is not programmed in to this chat room. The server logs which
+                    might capture your conversations are usually not actively monitored. Consider taking your especially
+                    sensitive conversations to a different platform if you are very concerned about it.
+                </li>
+                <li>
+                    Webcam sharing is <strong>peer-to-peer</strong> so it is possible that your chat partner
+                    could identify your IP address by checking their computer's open connections. But this is
+                    true of basically all WebRTC webcam services and is part of how WebRTC works.
+                </li>
+                <li>
+                    As with all video sharing services, it is always possible that your chat partner may screen
+                    record their computer and thus record a copy of your video. This is a risk inherent with all
+                    video sharing platforms - you can't control what software the other party may be running,
+                    so choose your risk tolerance accordingly.
+                </li>
+            </ul>
+
+            <hr>
+
+            <h1 id="troubleshooting">
+                Troubleshooting
+                <a href="#troubleshooting" class="fa fa-paragraph is-size-6"></a>
+            </h1>
+
+            <p>
+                This section contains some troubleshooting advice for issues commonly experienced in the chat room.
+            </p>
+
+            <h2 id="webcam-troubleshooting">
+                Webcam Sharing
+                <a href="#webcam-troubleshooting" class="fa fa-paragraph is-size-6"></a>
+            </h2>
+
+            <h3 id="NotAllowedError">
+                Permission Denied, or NotAllowedError
+                <a href="#NotAllowedError" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                If you see an error message from <strong class="has-text-danger">ChatClient</strong> that says
+                something like "Webcam error: Permission denied" or a "NotAllowedError," this section is for you.
+            </p>
+
+            <p>
+                The reason for this error is that your web browser did not grant access to your Camera and Microphone
+                for the chat room to use. This may be because you accidentally clicked on the "Deny" button when your
+                browser asked you for permission, or because your web browser <em>itself</em> does not have permission for
+                these devices on your computer.
+            </p>
+
+            <p>
+                When you encounter this error, there are two places to look to resolve this:
+            </p>
+
+            <ol>
+                <li>
+                    In your web browser's settings (e.g. in Google Chrome or Firefox), make sure that you are granting
+                    permission for your Camera and Microphone to the chat room's website ({{.Hostname}}).
+                </li>
+                <li>
+                    In your operating system's settings, ensure that your web browser itself has permission to use
+                    your Camera and Microphone. <strong>Notice:</strong> on recent Mac OS and Windows systems, your
+                    web browser might not have permission by default to access these devices!
+                </li>
+            </ol>
+
+            <p>
+                Please see the following sections for in-depth guidance on where to look.
+            </p>
+
+            <p>
+                <strong>Notice:</strong> webcam sharing will require both your Camera <em>and</em> your Microphone
+                permission - if either one is denied, webcam sharing will fail.
+            </p>
+
+            <h4>1. Check your web browser's permissions for {{.Hostname}}</h4>
+
+            <p>
+                Go into your web browser's settings, to the "Privacy" or "Permissions" section and verify that
+                <code>{{.Hostname}}</code> has permissions to use your Camera <strong>and</strong> your Microphone.
+                Or at the very least: make sure that these settings are not set to "Deny" for {{.Hostname}}.
+            </p>
+
+            <p>
+                For example, on <i class="fab fa-chrome"></i> <strong>Google Chrome:</strong>
+            </p>
+
+            <ul>
+                <li>Go into your browser Settings -> "Privacy and security"</li>
+                <li>Click on "Site settings" <small>("Controls what information sites can use and show (location, camera, pop-ups, and more")</small></li>
+                <li>From here you can check the permissions in two ways:
+                    <ul>
+                        <li>Under the "Recent activity" section, look for {{.Hostname}} or click "View permissions and data stored across sites" to look for it there.</li>
+                        <li>Or: under the "Permissions" section, click into the "Camera" and "Microphone" settings to see the list of sites you've given/denied
+                            permission for, and change {{.Hostname}} to "Allow" or remove {{.Hostname}} from the list of sites.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>
+                Or for example, on <i class="fab fa-firefox"></i> <strong>Mozilla Firefox:</strong>
+            </p>
+
+            <ul>
+                <li>Go into your browser Settings -> "Privacy & Security"</li>
+                <li>Scroll down to the "Permissions" section where you see buttons for Camera and Microphone.</li>
+                <li>Click on the "Settings..." button for Camera and Microphone to see the list of websites you've given/denied permission for.</li>
+                <li>Find <code>{{.Hostname}}</code> and remove it from the list.</li>
+            </ul>
+
+            <p>
+                After changing your browser settings, <strong>exit and restart your web browser</strong> and log on to the chat room.
+                When going on webcam, hopefully your browser should ask you for permission for your webcam and microphone: be sure to
+                click on "Allow" when prompted.
+            </p>
+
+            <p>
+                If the change in your web browser's settings doesn't resolve the permission error, then check in your operating system's settings.
+            </p>
+
+            <h4>2. Check in your operating system's settings</h4>
+
+            <p>
+                For example, <strong>if you are on <i class="fab fa-apple"></i> Mac OS:</strong>
+            </p>
+
+            <ul>
+                <li>Click on the Apple icon in your top menu bar and open "System Settings"</li>
+                <li>Click on "Privacy &amp; Security"</li>
+                <li>Look for the Camera and Microphone settings and ensure that they are <strong>allowed</strong> for your web browser.</li>
+                <li>For more information, try: <a href="https://support.apple.com/guide/mac-help/control-access-to-your-camera-mchlf6d108da/mac">https://support.apple.com/guide/mac-help/control-access-to-your-camera-mchlf6d108da/mac</a></li>
+            </ul>
+
+            <p>
+                Or for example, <strong>if you are on <i class="fab fa-windows"></i> Windows 10 or Windows 11:</strong>
+            </p>
+
+            <ul>
+                <li>Click on the Start button > Settings > Privacy & Security > Camera, and make sure Camera access is turned <strong>on.</strong></li>
+                <li>Make sure that "Let apps access your camera" is also turned on.</li>
+                <li>Ensure that your web browser (e.g. Google Chrome) has permission to access your camera and microphone.</li>
+                <li>For more information, try: <a href="https://support.microsoft.com/en-us/windows/manage-app-permissions-for-your-camera-in-windows-87ebc757-1f87-7bbf-84b5-0686afb6ca6b">https://support.microsoft.com/en-us/windows/manage-app-permissions-for-your-camera-in-windows-87ebc757-1f87-7bbf-84b5-0686afb6ca6b</a></li>
+            </ul>
+
+            <h3 id="other-webcam-errors">
+                Other Webcam Errors
+                <a href="#other-webcam-errors" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                The most common error is a Permission Error as described above, but there are some less common
+                error messages you may experience. Here is a short list of some of them:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>AbortError:</strong> e.g. "Starting videoinput failed"
+                    <br><br>
+                    A common cause for this error may be that your webcam device is already in use by a different program,
+                    so that your web browser was not able to open it. Please make sure that you are not running another video
+                    chat program (such as Skype or Zoom) which has your camera active, and try again.
+                </li>
+                <li>
+                    <strong>NotFoundError</strong> or <strong>NotReadableError</strong>
+                    <br><br>
+                    This error may indicate that your camera device was not available to your web browser. For example, your
+                    webcam might not be plugged in to USB or you may be missing hardware drivers for it. To begin diagnosing
+                    this problem, check whether <other>other</other> websites or apps are able to use your camera: if none of
+                    them can either, it heavily points toward a hardware or driver error.
+                </li>
+            </ul>
+
+            <p>
+                Other possible errors should be uncommon. If this troubleshooting guide has not been helpful, try copying
+                the error message into a search engine and find information online: all of the text following "Webcam error:"
+                will be coming from your web browser, so relevant results may be found online. A possible place to start may
+                be the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">Mozilla documentation for getUserMedia.</a>
+            </p>
+
+            <h3 id="webcam-not-loading">
+                Other peoples' webcams don't load
+                <a href="#webcam-not-loading" class="fa fa-paragraph is-size-6"></a>
+            </h3>
+
+            <p>
+                It may sometimes happen that you clicked to watch somebody else's webcam on chat, and their video doesn't
+                load. If it only happens with <em>some</em> cameras (but other cameras load correctly), then the problem is
+                most likely on <em>that person's</em> side and not your own: their camera likely doesn't work for anybody
+                else who is trying to watch it, either.
+            </p>
+
+            <p>
+                Webcam sharing on the chat room works by "peer to peer" direct connections between chatters. Usually, this
+                tends to "just work" for most people, but sometimes your network connection or firewall can get in the way
+                and prevent a connection from being established.
+            </p>
+
+            <p>
+                The most common kinds of network conditions that cause problems connecting to webcams include:
+            </p>
+
+            <ul>
+                <li>
+                    If you are on a heavily firewalled network, such as in a school or workplace.
+                </li>
+                <li>
+                    If you are on a cellular network, e.g. from a smartphone or tablet. Some cell phone carriers
+                    add firewalls to their network to prevent direct peer-to-peer connections with mobile devices.
+                </li>
+                <li>
+                    If you are using a Virtual Private Network, or VPN: some VPN providers don't forward the kind
+                    of network messages that are needed to establish a peer-to-peer connection.
+                </li>
+            </ul>
+
+            <p>
+                For some specific advice:
+            </p>
+
+            <ul>
+                <li>
+                    If you can not connect to <strong>any</strong> webcam at all (e.g. many people are on webcam but you
+                    can not get <strong>any</strong> of them to work): most likely it is because you are on a firewalled
+                    network, like those listed above. If you are on a cell network, try switching to WiFi; or if you are
+                    using a VPN, try turning off your VPN.
+                </li>
+                <li>
+                    If <strong>only one or two webcams</strong> won't open for you, but others on the chat room are working:
+                    the problem is likely not on your end! It is likely that the people whose cameras are not working are
+                    on a firewalled network, and they are likely having worse problems than you are!
+                </li>
+                <li>
+                    If somebody's webcam button has a slash \ through it, like <i class="fa fa-video-slash has-text-info"></i>
+                    then it <em>probably</em> means that this person requires <strong>you</strong> to share your webcam first
+                    before you can open theirs. You can click on their camera button to see an exact reason why their camera
+                    has the \ slash through it.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
+{{end}}

@@ -1,0 +1,35 @@
+// Public Keywords:
+//
+// The topic in this file will be run on ALL public channel messages, to
+// recognize keywords (sparsely!) and do things in reaction to them.
+// The catch-all * triggers says <noreply> so we don't spam.
+
+! version = 2.0
+
+> topic PublicChannel
+
+    // Users saying hello = react with a wave emoji.
+    + [*] (hello|hi|hey|howdy|hola|hai|yo|greetings) [*]
+    - <call>react <get messageID> 👋</call>
+    ^ <noreply>
+
+    // Test for automoderator.
+    + kick me from the room now
+    - /kick <id>
+
+    // Images shared on chat.
+    + [*] inline embedded image [*]
+    - <call>react <get messageID> 👀</call>{weight=1}
+    - <noreply>{weight=3}
+
+    // Report messages of shame to the site admin.
+    + * am now being kicked from the room in shame *
+    - <call>react <get messageID> 🫡</call>
+    ^ <call>report <get messageID> "User has invoked the message of shame and said:" <star1> <star2></call>
+    ^ Later, loser!
+
+    // Catch-all: do not reply.
+    + *
+    - <noreply>
+
+< topic

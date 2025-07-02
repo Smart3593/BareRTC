@@ -1,0 +1,54 @@
+/* Forced dark theme for Bulma (custom created for BareRTC) */
+
+/* BareRTC custom overrides */
+@import url("chat-dark.css");
+
+/* Copied from bulma.css - original dark theme styles */
+:root {
+    --bulma-white-on-scheme-l: 100%;
+    --bulma-white-on-scheme: hsla(var(--bulma-white-h), var(--bulma-white-s), var(--bulma-white-on-scheme-l), 1);
+    --bulma-black-on-scheme-l: 0%;
+    --bulma-black-on-scheme: hsla(var(--bulma-black-h), var(--bulma-black-s), var(--bulma-black-on-scheme-l), 1);
+    --bulma-light-on-scheme-l: 96%;
+    --bulma-light-on-scheme: hsla(var(--bulma-light-h), var(--bulma-light-s), var(--bulma-light-on-scheme-l), 1);
+    --bulma-dark-on-scheme-l: 56%;
+    --bulma-dark-on-scheme: hsla(var(--bulma-dark-h), var(--bulma-dark-s), var(--bulma-dark-on-scheme-l), 1);
+    --bulma-text-on-scheme-l: 54%;
+    --bulma-text-on-scheme: hsla(var(--bulma-text-h), var(--bulma-text-s), var(--bulma-text-on-scheme-l), 1);
+    --bulma-primary-on-scheme-l: 41%;
+    --bulma-primary-on-scheme: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+    --bulma-link-on-scheme-l: 73%;
+    --bulma-link-on-scheme: hsla(var(--bulma-link-h), var(--bulma-link-s), var(--bulma-link-on-scheme-l), 1);
+    --bulma-info-on-scheme-l: 70%;
+    --bulma-info-on-scheme: hsla(var(--bulma-info-h), var(--bulma-info-s), var(--bulma-info-on-scheme-l), 1);
+    --bulma-success-on-scheme-l: 53%;
+    --bulma-success-on-scheme: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-on-scheme-l), 1);
+    --bulma-warning-on-scheme-l: 53%;
+    --bulma-warning-on-scheme: hsla(var(--bulma-warning-h), var(--bulma-warning-s), var(--bulma-warning-on-scheme-l), 1);
+    --bulma-danger-on-scheme-l: 70%;
+    --bulma-danger-on-scheme: hsla(var(--bulma-danger-h), var(--bulma-danger-s), var(--bulma-danger-on-scheme-l), 1);
+    --bulma-scheme-brightness: dark;
+    --bulma-scheme-main-l: 9%;
+    --bulma-scheme-main-bis-l: 11%;
+    --bulma-scheme-main-ter-l: 13%;
+    --bulma-soft-l: 20%;
+    --bulma-bold-l: 90%;
+    --bulma-soft-invert-l: 90%;
+    --bulma-bold-invert-l: 20%;
+    --bulma-background-l: 14%;
+    --bulma-border-weak-l: 21%;
+    --bulma-border-l: 24%;
+    --bulma-text-weak-l: 53%;
+    --bulma-text-l: 71%;
+    --bulma-text-strong-l: 93%;
+    --bulma-text-title-l: 100%;
+    --bulma-hover-background-l-delta: 5%;
+    --bulma-active-background-l-delta: 10%;
+    --bulma-hover-border-l-delta: 10%;
+    --bulma-active-border-l-delta: 20%;
+    --bulma-hover-color-l-delta: 5%;
+    --bulma-active-color-l-delta: 10%;
+    --bulma-shadow-h: 0deg;
+    --bulma-shadow-s: 0%;
+    --bulma-shadow-l: 100%;
+}

@@ -1,0 +1,28 @@
+{
+  "name": "barertc",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "watch": "vite build -w --sourcemap=true --minify=false",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "floating-vue": "^2.0.0-beta.24",
+    "hark": "^1.2.3",
+    "interactjs": "^1.10.18",
+    "qrcodejs": "github:danielgjackson/qrcodejs",
+    "vue": "^3.3.4",
+    "vue-mention": "^2.0.0-alpha.3",
+    "vue3-emoji-picker": "^1.1.7",
+    "vue3-slider": "^1.9.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.1",
+    "eslint": "^8.46.0",
+    "eslint-plugin-vue": "^9.16.1",
+    "vite": "^4.4.9"
+  }
+}

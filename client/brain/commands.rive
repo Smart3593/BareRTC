@@ -1,0 +1,17 @@
+! version = 2.0
+
++ /reload
+* <get isAdmin> != true => You do not have permission for that command.
+- <call>reload</call>
+
+// Send a greeting to a user as they join the room.
+// NOTE: this command is auto-fired on Presence events.
++ /greet
+* <env numUsersOnline> >= 10 => <noreply>
+- Welcome to chat, **@<id>**!
+- Hello @<id>! 👋
+- Hey @<id>! 👋
+
+// React to a message ID. NOTE: called internally usually.
++ /react # *
+- <call>react <star1> <star2></call>

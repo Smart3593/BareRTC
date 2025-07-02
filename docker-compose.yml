@@ -1,0 +1,48 @@
+version: "3"
+
+# Docker Compose manifest for BareRTC.
+#
+# Usage is simple:
+#
+#    docker-compose up
+#
+# If happy, run `docker-compose up -d` to run it in the background.
+#
+# It will bind certain files in your current working directory:
+#
+#    ./settings.toml for the app settings.
+#    ./database.sqlite for chat history DMs.
+#    ./logs for any log output written by the app.
+
+services:
+
+  # BareRTC web app.
+  web:
+    build: .
+    container_name: barertc
+    ports:
+      - "9000:9000"  # host:container
+    volumes:
+      - "./settings.toml:/app/settings.toml:z"
+      - "./database.sqlite:/app/database.sqlite:z"
+      - "./logs:/app/logs:z"
+
+  # TURN server.
+  coturn:
+    image: "coturn/coturn:latest"
+    container_name: coturn_server
+    ports:
+      ## STUN/TURN
+      - "3478:3478"
+      - "3478:3478/udp"
+      # - "3479:3479"
+      # - "3479:3479/udp"
+      # - "80:80"
+      # - "80:80/udp"
+      ## STUN/TURN SSL
+      # - "5349:5349"
+      # - "5349:5349/udp"
+      # - "5350:5350"
+      # - "5350:5350/udp"
+      # - "443:443"
+      # - "443:443/udp"

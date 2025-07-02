@@ -1,0 +1,30 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bulma-prefers-dark.css">
+    <title>Déconnecté</title>
+</head>
+<body>
+
+    <div class="container is-fullhd">
+        <div class="content my-5">
+            <h1>Déconnecté</h1>
+
+            <p>
+            Vous êtes maintenant déconnecté du salon de discussion. Vous pouvez fermer cette page.
+            </p>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.close();
+        }, 5000);
+    </script>
+
+</body>
+</html>
+{{end}}

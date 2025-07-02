@@ -1,0 +1,376 @@
+html {
+    height: 100vh;
+    overscroll-behavior: contain;
+}
+body {
+    min-height: 100vh;
+}
+
+/* No dragging images - it plays wrongly with the drag/drop image sharing feature
+   and users can accidentally share in chat by dragging an on-page image */
+img {
+    /* https://stackoverflow.com/questions/12906789/preventing-an-image-from-being-draggable-or-selectable-without-using-js */
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.float-right {
+    float: right;
+}
+
+/* Bulma override */
+.media-content {
+    overflow: hidden !important;
+}
+
+/* DM title and bg color */
+.has-background-private {
+    background-color: #b748c7 !important;
+}
+.has-background-dm {
+    background-color: #fff9ff !important;
+}
+.has-background-at-mention {
+    background-color: rgb(250, 250, 192);
+}
+
+.has-text-private {
+    color: #CC00CC !important;
+}
+
+/* Truncate long text, e.g. usernames in the who list */
+.truncate-text-line {
+    text-overflow: ellipsis;
+}
+
+/* Color coded webcam usernames per camera setting */
+.has-text-camera-blue {
+    color: #00ccff !important;
+}
+.has-text-camera-red {
+    color: #ff9999 !important;
+}
+
+/* Video button outline for invited status */
+.video-button-invited {
+    border-color: hsl(153deg,53%,53%) !important;
+}
+
+/* Max height for message in report modal */
+.report-modal-message {
+    max-height: 150px;
+    overflow: auto;
+}
+
+/* Style fix to center wider icons on the Who's Online status icons */
+.who-status-wide-icon-2 {
+    margin: -2px;
+}
+.who-status-wide-icon-1 {
+    margin: -1px;
+}
+
+/************************
+ * Main CSS Grid Layout *
+ ************************/
+
+.chat-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+
+    background: rgb(190,190,190);
+    background: linear-gradient(0deg, rgb(172, 172, 172) 0%, rgb(214, 214, 214) 100%);
+
+    display: grid;
+    column-gap: 10px;
+    row-gap: 10px;
+    grid-template-columns: 260px 1fr 280px;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* Header row */
+.chat-container > .chat-header {
+    grid-column: 1 / 4;
+    grid-row: 1;
+}
+
+/* Left column: DMs and channels */
+.chat-container > .left-column {
+    grid-column: 1;
+    overflow: hidden;
+}
+
+/* Main column: chat history */
+.chat-container > .chat-column {
+    grid-column: 2;
+    grid-row: 2;
+    overflow: hidden;
+    /* position: relative; */
+}
+
+/* Auto-scroll checkbox in the corner */
+.autoscroll-field {
+    position: absolute;
+    z-index: 39; /* just below modal shadow */
+    right: 12px;
+    bottom: 4px;
+}
+
+/* User status indicator in the lower left corner of DMs */
+.user-status-dm-field {
+    position: absolute;
+    z-index: 38; /* below auto-scroll checkbox */
+    left: 12px;
+    bottom: 4px;
+}
+
+/* Footer row: message entry box */
+.chat-container > .chat-footer {
+    grid-column: 1 / 4;
+    grid-row: 3;
+}
+
+/* Right column: Who List */
+.chat-container > .right-column {
+    grid-column: 3;
+    overflow: hidden;
+}
+
+/* Responsive CSS styles */
+@media screen and (min-width: 1024px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .chat-container {
+        grid-template-columns: 0px 1fr 0px;
+        column-gap: 0;
+    }
+
+    .left-column {
+        display: none;
+    }
+
+    .right-column {
+        display: none;
+    }
+}
+
+/***********************************************
+ * Reusable CSS Grid-based Bulma Card layouts  *
+ * with a fixed header, full size scrollable   *
+ * content, and (optionally) video-feeds under *
+ * the header (main chat card only)            *
+ ***********************************************/
+
+.grid-card {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+}
+
+.grid-card > .card-header {
+    grid-row: 1;
+}
+
+.grid-card > .video-feeds {
+    grid-row: 2;
+}
+
+.grid-card > .card-content {
+    grid-row: 3;
+    /* background-color: magenta; */
+    overflow-y: scroll;
+
+    /* Work around Safari bug: the chat history would just lengthen the full
+       web page every time cuz it doesn't do grids well, so add a max height
+       of 90% viewport height to mitigate it a bit. */
+    max-height: 90vh;
+}
+
+/* Ensure the chat history isn't squished too far by the Videos panel if
+   the user has a lot open/has made their size very big */
+#chatHistory {
+    min-height: 200px;
+}
+
+/* User configurable font size increases */
+#chatHistory .x-2 {
+    font-size: x-small;
+}
+#chatHistory .x-1 {
+    font-size: small;
+}
+#chatHistory .x1 {
+    font-size: large;
+}
+#chatHistory .x2 {
+    font-size: x-large;
+}
+#chatHistory .x3 {
+    font-size: xx-large;
+}
+#chatHistory .x4 {
+    font-size: 64pt;
+}
+
+/*******************
+ * Video Feeds CSS *
+ *******************/
+
+.video-feeds {
+    background-color: #222;
+    width: 100%;
+    max-width: 100%;
+
+    /* display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; */
+    overflow-y: auto;
+}
+
+.feed {
+    position: relative;
+    /* flex: 0 0 168px; */
+    float: left;
+    width: 168px;
+    height: 112px;
+    background-color: black;
+    border: 1px solid black;
+    margin: 3px;
+    overflow: hidden;
+    resize: both;
+}
+
+/* A speaking webcam */
+.feed.is-speaking {
+    border: 1px solid #09F !important;
+}
+
+/* A popped-out video feed window */
+div.feed.popped-out {
+    position: absolute;
+    cursor: move;
+    top: 0;
+    left: 0;
+    resize: none;
+    z-index: 1; /* work around Safari video being on top when return from fullscreen */
+}
+
+.video-feeds.x1 > .feed {
+    flex: 0 0 252px;
+    width: 252px;
+    height: 168px;
+}
+
+.video-feeds.x2 > .feed {
+    flex: 0 0 336px;
+    width: 336px;
+    height: 224px;
+}
+
+.video-feeds.x3 > .feed {
+    flex: 0 0 504px;
+    width: 504px;
+    height: 336px;
+}
+
+.video-feeds.x4 > .feed {
+    flex: 0 0 672px;
+    width: 672px;
+    height: 448px;
+}
+
+.feed > video {
+    width: 100%;
+    height: 100%;
+}
+
+.feed > .controls {
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    z-index: 1; /* work around Safari video being on top when return from fullscreen */
+}
+
+.feed > .close {
+    position: absolute;
+    right: 4px;
+    top: 0;
+    z-index: 1; /* work around Safari video being on top when return from fullscreen */
+}
+
+.feed > .caption {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    top: 4px;
+    left: 4px;
+    font-size: small;
+    padding: 2px 4px;
+    z-index: 1; /* work around Safari video being on top when return from fullscreen */
+}
+
+/* YouTube embeds */
+.youtube-embed {
+    max-width: 100%;
+}
+
+/* The Away icon that overlays profile pics */
+.status-away-icon {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    text-shadow: 0px 0px 4px #000;
+}
+
+/* Cursors */
+.cursor-default {
+    cursor: default;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.cursor-notallowed {
+    cursor: not-allowed;
+}
+
+/* Emoji reaction button support */
+.position-relative {
+    position: relative;
+}
+.emoji-button {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+}
+.emoji-button button {
+    background-color: rgba(255, 255, 255, 0.5);
+    /* color: rgba(0, 0, 0, 0.5); */
+}
+
+/* Gender colors for profile icon */
+.has-text-gender-male {
+    color: #0099ff !important;
+}
+.has-text-gender-female {
+    color: #ff99ff !important;
+}
+.has-text-gender-other {
+    color: #cc00cc !important;
+}
+
+/* VIP colors for profile icon */
+.has-background-vip {
+    background-image: linear-gradient(141deg, #d1e1ff 0, #ffddff 100%)
+}

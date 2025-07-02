@@ -1,0 +1,55 @@
+/* Custom color overrides for Bulma's dark theme */
+
+.chat-container {
+    background: rgb(39, 39, 39) !important;
+    background: linear-gradient(0deg, rgb(39, 39, 39) 0%, rgb(66, 66, 66) 100%) !important;
+}
+
+.has-background-primary-light {
+    background-color: rgba(28, 166, 76, 0.25) !important;
+}
+
+.has-background-info-light, .has-background-info {
+    background-color: rgb(26, 79, 95) !important
+}
+
+.has-background-success-light, .has-background-success {
+    background-color: rgba(19, 71, 37, 0.685) !important
+}
+
+.has-background-warning-light, .has-background-warning {
+    background-color: rgb(100, 90, 41) !important;
+}
+
+.has-background-at-mention {
+    background-color: rgb(65, 65, 48) !important;
+}
+
+/* note: this css file otherwise didn't override this, dark's always dark, brighten it! */
+.has-text-dark, .button.is-grey {
+    color: #b5b5b5 !important;
+}
+
+.button.is-dark {
+    color: #b5b5b5 !important;
+    border-color: #b5b5b5 !important;
+}
+
+/* adjust some background colors darker */
+.notification.is-success.is-light {
+    background-color: #232e29 !important;
+    color: #56cf98 !important;
+}
+.notification.is-warning.is-light {
+    background-color: rgb(51, 46, 21) !important;
+    color: rgb(253, 227, 97) !important;
+}
+
+.has-background-dm {
+    background-color: #100010 !important;
+}
+
+.emoji-button button {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+}

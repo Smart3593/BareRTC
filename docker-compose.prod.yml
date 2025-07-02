@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  # BareRTC web app
+  barertc:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: barertc_prod
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9000:9000" # Only bind to localhost for reverse proxy
+    volumes:
+      - ./settings.toml:/app/settings.toml:ro
+      - barertc_data:/app/data
+      - barertc_logs:/app/logs
+    environment:
+      - TZ=Europe/Paris
+    networks:
+      - barertc_network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9000/",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # TURN server for WebRTC
+  coturn:
+    image: coturn/coturn:latest
+    container_name: barertc_coturn
+    restart: unless-stopped
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+      - "5349:5349"
+      - "5349:5349/udp"
+    volumes:
+      - ./turnserver.conf:/etc/coturn/turnserver.conf:ro
+    networks:
+      - barertc_network
+    command: >
+      -c /etc/coturn/turnserver.conf
+      --external-ip=YOUR_SERVER_IP
+      --realm=x.tchatenlive.fr
+
+volumes:
+  barertc_data:
+    driver: local
+  barertc_logs:
+    driver: local
+
+networks:
+  barertc_network:
+    driver: bridge
