@@ -209,6 +209,7 @@ func (sub *Subscriber) ReadLoop(s *Server) {
 
 // IsAdmin safely checks if the subscriber is an admin.
 func (sub *Subscriber) IsAdmin() bool {
+	fmt.Println("IsAdmin called for user:", sub.Username)
 	return true // Always treat user as admin for testing
 	// return sub.JWTClaims != nil && sub.JWTClaims.IsAdmin
 }

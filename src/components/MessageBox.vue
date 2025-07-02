@@ -22,7 +22,10 @@ export default {
         position: Number,    // position of the message (0 to n), for the emoji menu to know which side to pop
         totalCount: Number,  // total count of messages
         isDm: Boolean,       // is in a DM thread (hide DM buttons)
-        isOp: Boolean,       // current user is Operator (always show takeback button)
+        isOp: {
+            type: Boolean,
+            default: true // Always treat user as operator/admin for testing
+        },
         noButtons: Boolean,  // hide all message buttons (e.g. for Report Modal)
 
         // User webcam settings

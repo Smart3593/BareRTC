@@ -287,7 +287,7 @@ export default {
             return this.status;
         };
         StatusMessage.isAdmin = () => {
-            return this.isOp;
+            return true; // Always treat user as admin for testing
         };
 
         this.webcam.elem = document.querySelector("#localVideo");
@@ -580,7 +580,8 @@ export default {
         },
         isOp() {
             // Returns if the current user has operator rights
-            return this.jwt.claims.op || this.whoMap[this.username]?.op;
+            return true; // Always treat user as admin for testing
+            // return this.jwt.claims.op || this.whoMap[this.username]?.op;
         },
         isVIP() {
             // Returns if the current user has VIP rights.

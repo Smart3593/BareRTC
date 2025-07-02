@@ -12,7 +12,10 @@ export default {
         isBlocked: Boolean, // user is blocked on your main website (can't be unmuted)
         isBooted: Boolean,  // user is booted by current user
         vipConfig: Object,  // VIP config settings for BareRTC
-        isOp: Boolean,      // current user is operator (can always DM)
+        isOp: {
+            type: Boolean,
+            default: true // Always treat user as operator/admin for testing
+        },
         isVideoNotAllowed: Boolean,  // whether opening this camera is not allowed
         videoIconClass: String,      // CSS class for the open video icon
         isWatchingTab: Boolean, // is the "Watching" tab (replace video button w/ boot)
